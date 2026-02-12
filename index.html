@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>для тяяя</title>
+<style>
+body{
+  margin:0;
+  font-family:'Times New Roman', serif;
+  background:#888; /* серый фон */
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center; /* центрируем по вертикали */
+  min-height:100vh;
+  position:relative;
+}
+
+.card{
+  width:98%;
+  max-width:1000px;
+  max-height:90vh;
+  background: rgba(255,255,255,0.95);
+  border-radius:22px;
+  padding:26px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+  color:#000;
+  position:relative;
+  overflow-y:auto;
+}
+
+h1{color:#000; font-size:26px;}
+p{font-size:18px; line-height:1.6;}
+button{
+  margin-top:12px;
+  padding:14px 26px;
+  border:none;
+  border-radius:14px;
+  background:#ff1493;
+  color:#fff;
+  font-size:17px;
+  cursor:pointer;
+}
+button:hover{background:#ff69b4;}
+
+/* Memories */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin:20px 0;
+  height:65vh;        /* теперь большой блок */
+  overflow-y:auto;   /* прокрутка если много фото */
+  padding-right:10px;
+}
+/* Гифка */
+.center-gif {
+    width: 260px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+.flip{perspective:800px;}
+.inner{
+  width:100%;
+  height:100%;
+  min-height:220px;  /* фотки больше */
+  transform-style:preserve-3d;
+  transition:.7s;
+  cursor:pointer;
+  position:relative;
+}
+.flip.active .inner{transform:rotateY(180deg);}
+.front, .back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  backface-visibility:hidden;
+  border-radius:10px;
+  overflow:hidden;
+}
+.front img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition: transform .5s;
+}
+.flip.active .front img{
+  transform: scale(1.1);
+}
+.back{
+  background:#ddd;
+  color:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:12px;
+  transform:rotateY(180deg);
+  font-weight:bold;
+  font-size:16px;
+  border-radius:10px;
+}
+
+/* Письмо-стиль (финальный экран) */
+.letter{
+  width:90%;
+  max-width:700px;
+  background-image: url('notebook-background.jpg'); /* замените на свою картинку */
+  background-size: cover;
+  background-position: center;
+  border-radius:16px;
+  padding:30px;
+  text-align:left;
+  box-shadow:0 15px 30px rgba(0,0,0,.25);
+  font-family:'Times New Roman', serif;
+  color:#000;
+  line-height:1.6;
+  margin:20px auto;
+}
+.hearts{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none; /* важно: чтобы кнопки нажимались */
+  overflow:hidden;
+  z-index:0;
+}
+
+.heart{
+  position:absolute;
+  width:18px;
+  height:18px;
+  background:#ff1493;
+  transform:rotate(45deg);
+  animation: floatUp linear infinite;
+  opacity:.7;
+}
+
+.heart::before,
+.heart::after{
+  content:'';
+  position:absolute;
+  width:18px;
+  height:18px;
+  background:#ff1493;
+  border-radius:50%;
+}
+
+.heart::before{top:-9px; left:0;}
+.heart::after{left:-9px; top:0;}
+
+@keyframes floatUp{
+  from{transform:translateY(100vh) rotate(45deg);}
+  to{transform:translateY(-120vh) rotate(45deg);}
+}
+
+</style>
+</head>
+<body>
+
+<div class="card" id="screen">
+  <h1>с днем голубых))))</h1>
+  <p>дляяяя тебя есть одно сообщение…</p>
+<video class="center-gif" autoplay muted loop playsinline>
+    <source src="images/love.mp4" type="video/mp4">
+</video>
+<hr><button onclick="showMessage2()">тыккк</button>
+</div>
+
+<script>
+// Переходы между экранами
+function showMessage2(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`<h1>приветикккк))</h1>
+  <p>я давно хотелааасказать тебе кое-что важное.</p>
+  <button onclick="showMessage3()">тык</button>`;
+}
+function showMessage3(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`<h1>тыособенная❤️</h1>
+  <p>тыыыыы делаешь мои дни ярче!!!.</p>
+<video class="center-gif" autoplay muted loop playsinline>
+    <source src="images/love1.mp4" type="video/mp4">
+</video>
+  <hr><button onclick="showMessage4()">тык</button>`;
+}
+function showMessage4(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`<h1>ААА Я ТЕБЯ ЛЮЮБЛЮЮЮЮ</h1>
+  <p>а теперь… нашивоспоминания.</p>
+  <button onclick="showMemories()">нажат!!</button>`;
+}
+
+// Memories
+function showMemories(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`<h1>нашиииии воспоминания или днивместе</h1>
+  <p>тыктыкпук на фот</p>
+  <div class="grid">
+    ${card("photo1.jpg","нашпервый день")}
+    ${card("photo2.jpg","время с тобой ")}
+    ${card("photo3.jpg","когда я чувствовала себя ебать лучше всех")}
+    ${card("photo4.jpg","лягушонок мой")}
+    ${card("photo5.jpg","яхалк твой помнишь да")}
+    ${card("photo6.jpg","момент который навсегда булет во мне")}
+  </div>
+  <button onclick="showMenu()">пук</button>`;
+}
+
+// Раздел выбора
+function showMenu(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`<h1>хочеш ещё?)))😳</h1>
+  <p>выбериии одно а можеш и несколько)))</p>
+  <button onclick="showCompliment()">комплимент)</button>
+  <button onclick="showFlirt()">флирт69</button>
+  <button onclick="showSecret()">сикретомагад</button>
+  <button onclick="showJoke()">шууутка</button>
+<button onclick="showSong()">наша песенкааа</button>
+
+
+
+<hr><button onclick="showValentine()">будешьь моей??? ну и валентинкой тожж?</button>
+  <button onclick="restart()/button>`;
+}
+
+function showCompliment(){document.getElementById('screen').innerHTML=`<h1>тф прекраснааа</h1><p>твоя улыбка — моё любимое место.</p>
+<video class="center-gif" autoplay muted loop playsinline>
+    <source src="images/love2.mp4" type="video/mp4">
+</video>
+  <hr>
+<button onclick="showMenu()">назад</button>`;}
+function showFlirt(){document.getElementById('screen').innerHTML=`<h1>йоу </h1><p>кажется, я потеряла дыхание… можно я займусь этим прямо с твоими губами? эт мне гпт писал под предлогом пошлые подкаты АХАХХАХАХАХ</p>
+<video class="center-gif" autoplay muted loop playsinline>
+    <source src="images/love3.mp4" type="video/mp4">
+</video>
+  <hr><button onclick="showMenu()">назад</button>`;}
+function showSecret(){document.getElementById('screen').innerHTML=`<h1>сикретик </h1><p>я думаю о тебе чащечем ты думаеш или не только думаю))))))ойййй да люблю тя очень</p>
+<video class="center-gif" autoplay muted loop playsinline>
+    <source src="images/love7.mp4" type="video/mp4">
+</video>
+  <hr><button onclick="showMenu()">назад</button>`;}
+function showJoke(){document.getElementById('screen').innerHTML=`<h1>шуточка </h1><p>я бы пукнула тебе в носик и потом жестко поцеловлаа и ты прикинб смешно нам будет да?? хехехехеххе</p>
+<video class="center-gif" autoplay muted loop playsinline>
+    <source src="images/love6.mp4" type="video/mp4">
+</video>
+  <hr>
+<button onclick="showMenu()">назад</button>`;}
+function showSong(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`
+    <h1>лялялятрапаля там🎶</h1>
+    <p>эта песня терь всегда про нас будет</p>
+<video class="center-gif" autoplay muted loop playsinline>
+    <source src="images/love4.mp4" type="video/mp4">
+</video>
+  <hr>
+    <audio controls autoplay style="width:100%; margin-top:15px;">
+      <source src="song.mp3" type="audio/mpeg">
+      Твой браузер не поддерживает аудио.
+    </audio>
+
+    <p style="margin-top:15px;">там мои пуки </p>
+    <button onclick="showMenu()">назад</button>
+  `;
+}
+// Финальный экран "Будешь моей Валентинкой?"
+function showValentine(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`<h1>тии буш моей валентинокй голубыми булем типа шариш??</h1>
+<video class="center-gif" autoplay muted loop playsinline>
+    <source src="images/love5.mp4" type="video/mp4">
+</video>
+<hr>
+  <p>ответ:!</p>
+  <button onclick="yesValentine()">да ебать газ сука</button>
+  <button onclick="noValentine()">нет минет</button>`;
+}
+
+function yesValentine(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`
+  <h1>тут писанина для тебя хз откаво</h1>
+  <div class="letter" id="letterText">
+    <p>ддорогаяя мояжена,</p>
+    <p>тыыы солнцемое ворвалась в мою жизнь так что все внутри встало на свои места яяяяя не искала чегото осоебнного крутого но нашлатебя и теперь все остальное кажется фоном. патамута ты в моей голове 29/69. ты умеешь быть разной смешнойдерзкой задумчивой упрямой ив этом твоя магия хрхехехехехе с тобой никогда не скучно даже тишинас тобой не пустая а настоящая мы ведь не молчим в нейййй иногдаааа я ловлю себя на том что хочу рассказатьтебе все глупости страхи мечты планы вообще всю хуйню потомучто ты тот человек с кем это имеет смысл ты моййй смысл жизни мне нравится как ты живешькак смотришь на миркак идешь своимпутем ну эта который тока со мной ты не похожа ни на кого и именно поэтому ты мне так дорогаааааааа
+я не  обещаю идеальную сказку нооооо я знаю одно мне хочется проживать эту жизньименно с тобой ты появилась в моей жизни не как событие а как поворот поворот в неизвестность которую я с каждым днем исследую и углубляясь в ее недостатки и преимущества и меня устраивает все в ней я в ней своя по особенному цвету потому что чувствую любовь с ее стеннн. 
+стобой все стало какимто более настоящимбудто мир перестал быть плоским а в виде сердца теперь ты умеешь быть собой без масок без лишних слов без попытки казаться лучше я в тебе открываю это всееее ты уменч умница ввовововщщщвщвщвщ
+ииии именно это в тебе притягивает сильнее всего
+иногдаааа мне кажется что ты не просто рядом а внутри моих мыслей я думаю что бы ты сказала как бы посмотрела как бы улыбнулась клянусь я вижу нас в будущеееммммм 
+мне  важно не просто быть с тобой мне важно делить с тобой дни уебищные веселые страшные обидные громкие тихие любые лишь бы с тобой 
+ты не мечта и не идеал (шучууу) тыыы реальный человек которого я выбираю снова и снова и буду даже если передо мной будет он стоять я даже не лумая знаешь же я тебя люблю очен и буду всегда с тобой!!!</p>
+    <p>с любовью,</p>
+    <p>какаятаписяяяя)))</p>
+  </div>
+  <button onclick="restart()">снач</button>`;
+}
+
+function noValentine(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`<h1>ээээ какой нахуй нет…</h1>
+  <p>щасполучишепта</p>
+  <button onclick="restart()">снач</button>`;
+}
+
+// Сброс на начало
+function restart(){
+  let screen=document.getElementById('screen');
+  screen.innerHTML=`<h1>с днем голубых))))</h1>
+  <p>дляяяя тебя есть одно сообщение…</p>
+  <button onclick="showMessage2()">тык</button>`;
+}
+
+// Карточка фото с переворотом
+function card(img,text){
+  return `<div class="flip" onclick="this.classList.toggle('active')">
+    <div class="inner">
+      <div class="front"><img src="${img}"></div>
+      <div class="back">${text}</div>
+    </div>
+  </div>`;
+}
+</script>
+
+</body>
+</html>
